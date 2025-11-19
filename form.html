@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse - EduCursos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section id="formPage" class="form-page active">
+        <div class="form-split">
+            <aside class="form-left">
+                <div class="left-inner">
+                    <div class="left-top">
+                        <div class="logo">EduCursos</div>
+                    </div>
+                    <div class="left-art"></div>
+                </div>
+            </aside>
+
+            <main class="form-right">
+                <div class="form-panel">
+                    <span class="close-form" onclick="showPresentation()">✕</span>
+                    <h2>Crear Cuenta</h2>
+                    <form id="multiStepForm" onsubmit="handleRegister(event)">
+                        <!-- Step indicators -->
+                        <div class="step-indicator" id="stepIndicator">
+                            <span class="step-dot active" data-step="1">1</span>
+                            <span class="step-dot" data-step="2">2</span>
+                            <span class="step-dot" data-step="3">3</span>
+                        </div>
+
+                        <div class="form-steps-wrap">
+
+                            <!-- STEP 1 -->
+                            <div class="form-step" data-step="1">
+                                <div class="form-group">
+                                    <label for="regFirstName">Nombre(s) *</label>
+                                    <input type="text" id="regFirstName" required placeholder="Tu nombre (ej: Juan o Juan Carlos)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="regLastName">Apellidos *</label>
+                                    <input type="text" id="regLastName" required placeholder="Tus apellidos (ej: Pérez o Pérez Gómez)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="regEmail">Correo Electrónico *</label>
+                                    <input type="text" id="regEmail" required placeholder="usuario@dominio">
+                                </div>
+                                <div class="form-group">
+                                    <label for="regPassword">Contraseña *</label>
+                                    <input type="password" id="regPassword" required placeholder="Mínimo 6 caracteres">
+                                </div>
+                                <div class="form-group">
+                                    <label for="regPasswordConfirm">Confirmar Contraseña *</label>
+                                    <input type="password" id="regPasswordConfirm" required placeholder="Repite tu contraseña">
+                                </div>
+                            </div>
+
+                            <!-- STEP 2 -->
+                            <div class="form-step hidden-step" data-step="2">
+                                <div class="form-group">
+                                    <label for="regPhone">Número de Teléfono *</label>
+                                    <input type="tel" id="regPhone" required placeholder="Solo dígitos, sin espacios (min 4 - max 10)">
+                                </div>
+                                <div class="form-group two-cols">
+                                    <div>
+                                        <label for="regBirthday">Fecha de Cumpleaños *</label>
+                                        <input type="date" id="regBirthday" required>
+                                        <div class="small-muted">Formato: DD/MM/AAAA</div>
+                                    </div>
+                                    <div>
+                                        <label for="regGender">Género *</label>
+                                        <select id="regGender" required>
+                                            <option value="">Selecciona tu género</option>
+                                            <option value="M">Masculino</option>
+                                            <option value="F">Femenino</option>
+                                            <option value="O">Otro</option>
+                                            <option value="P">Prefiero no especificar</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="regEducation">Nivel Educativo</label>
+                                    <select id="regEducation">
+                                        <option value="">Selecciona (opcional)</option>
+                                        <option value="P">Primaria</option>
+                                        <option value="S">Secundaria</option>
+                                        <option value="T">Técnico</option>
+                                        <option value="U">Universitario</option>
+                                        <option value="PG">Postgrado</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="regProfession">Profesión</label>
+                                    <input type="text" id="regProfession" placeholder="Tu profesión (opcional)">
+                                </div>
+                            </div>
+
+                            <!-- STEP 3 -->
+                            <div class="form-step hidden-step" data-step="3">
+                                <div class="form-group">
+                                    <label>Intereses (Selecciona al menos uno) *</label>
+                                    <div class="interests-grid">
+                                        <label class="chip"><input type="checkbox" name="interests" value="programacion"><span>Programación</span></label>
+                                        <label class="chip"><input type="checkbox" name="interests" value="diseno"><span>Diseño</span></label>
+                                        <label class="chip"><input type="checkbox" name="interests" value="marketing"><span>Marketing</span></label>
+                                        <label class="chip"><input type="checkbox" name="interests" value="negocios"><span>Negocios</span></label>
+                                        <label class="chip"><input type="checkbox" name="interests" value="datos"><span>Análisis de Datos</span></label>
+                                        <label class="chip"><input type="checkbox" name="interests" value="idiomas"><span>Idiomas</span></label>
+                                        <label class="chip"><input type="checkbox" name="interests" value="arte"><span>Arte</span></label>
+                                        <label class="chip"><input type="checkbox" name="interests" value="desarrollo"><span>Desarrollo Personal</span></label>
+                                        <label class="chip"><input type="checkbox" name="interests" value="otros"><span>Otros</span></label>
+                                        <label class="chip"><input type="checkbox" name="interests" value="aun_no_decido"><span>Aún no decido</span></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="regCountry">País *</label>
+                                    <select id="regCountry" required>
+                                        <option value="">Selecciona tu país</option>
+                                        <option value="CO">Colombia</option>
+                                        <option value="MX">México</option>
+                                        <option value="AR">Argentina</option>
+                                        <option value="ES">España</option>
+                                        <option value="CL">Chile</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div> <!-- .form-steps-wrap -->
+
+                        <!-- persistent navigation (always visible) -->
+                        <div class="form-nav">
+                            <button type="button" id="navPrevBtn" class="btn-secondary">Anterior</button>
+                            <button type="button" id="navNextBtn" class="btn-primary">Siguiente</button>
+                        </div>
+
+                    </form>
+                    <div class="toggle-form">
+                        ¿Ya tienes cuenta? <a onclick="toggleForms()">Inicia sesión</a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        // initialize steps when this page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            try { showFormStep(1); } catch (e) { /* ignore on other pages */ }
+        });
+    </script>
+</body>
+</html>

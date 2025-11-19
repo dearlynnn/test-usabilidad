@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCursos - Plataforma de Aprendizaje</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">EduCursos</div>
+            <div>
+                <button class="btn-ghost" onclick="showLogin()">Iniciar Sesión</button>
+                <button class="btn-primary" onclick="showRegister()">Registrarse</button>
+            </div>
+        </nav>
+    </header>
+    <main id="presentation" class="active">
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Aprende cualquier cosa, en cualquier momento</h1>
+                <p>Acceso a miles de cursos en línea para desarrollar tus habilidades y avanzar en tu carrera</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="showRegister()">Registrarse Gratis</button>
+                    <button class="btn-secondary" onclick="showLogin()">Iniciar Sesión</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>¿Por qué elegir EduCursos?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Cursos Variados</h3>
+                    <p>Elige entre cientos de cursos en diferentes categorías</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🏫</div>
+                    <h3>Expertos Certificados</h3>
+                    <p>Aprende de profesionales con años de experiencia</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3>Aprende a tu Ritmo</h3>
+                    <p>Sin horarios fijos, estudia cuando quieras</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📜</div>
+                    <h3>Certificados</h3>
+                    <p>Obtén reconocimiento formal al completar cursos</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Login modal (inline) -->
+    <div class="form-container" id="loginForm" aria-hidden="true">
+        <div class="form-box">
+            <span class="close-form" onclick="closeLogin()">✕</span>
+            <h2>Iniciar Sesión</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Correo Electrónico</label>
+                    <input type="email" id="loginEmail" required placeholder="tu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" required placeholder="Tu contraseña">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Iniciar Sesión</button>
+                    <button type="button" class="btn-secondary" onclick="window.location.href='form.html'">Registrarse</button>
+                </div>
+            </form>
+            <div class="toggle-form">
+                ¿No tienes cuenta? <a href="form.html">Regístrate ahora</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 EduCursos. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

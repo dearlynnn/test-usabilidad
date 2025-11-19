@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCursos - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <main>
+        <div id="dashboard" class="dashboard active">
+            <div class="dashboard-header">
+                <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+                    <div>
+                        <h1>Bienvenido a tu Espacio de Aprendizaje</h1>
+                        <p id="userGreeting"></p>
+                    </div>
+                    <div class="user-info">
+                        <p id="userEmail"></p>
+                        <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <section class="welcome-section">
+                    <h2>¡Hola! Continúa tu aprendizaje</h2>
+                    <p>Ya has completado varios cursos. Aquí están los cursos que puedes retomar o iniciar.</p>
+                </section>
+
+                <section class="courses-section">
+                    <h2>Tus Cursos</h2>
+                    <div class="courses-grid" id="coursesGrid"></div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 EduCursos. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
