@@ -8,7 +8,18 @@
 </head>
 <body>
 
-    <main>
+    <header>
+        <nav>
+            <div class="logo">EduCursos</div>
+            <div>
+                <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </nav>
+    </header>
+
+    <div id="presentation" style="display: none;"></div>
+
+    <main class="active">
         <div id="dashboard" class="dashboard active">
             <div class="dashboard-header">
                 <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
@@ -42,5 +53,23 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Verificar si hay usuario logueado y mostrar dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            
+            if (!currentUser) {
+                // Si no hay usuario logueado, redirigir al index
+                window.location.href = 'index.html';
+            } else {
+                // Mostrar dashboard si hay usuario
+                try {
+                    showDashboard();
+                } catch (e) {
+                    console.error('Error mostrando dashboard:', e);
+                }
+            }
+        });
+    </script>
 </body>
 </html>

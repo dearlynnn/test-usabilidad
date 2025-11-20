@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Exitoso - EduCursos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="success-page">
+        <div class="success-container">
+            <div class="success-icon">✓</div>
+            
+            <h1 class="success-title">Cuenta Creada</h1>
+            <p class="success-message">Tu registro ha sido exitoso. Ya puedes empezar a explorar los cursos.</p>
+            
+            <div class="success-actions">
+                <button class="btn-primary" onclick="goToDashboard()">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+        
+        function goToHome() {
+            window.location.href = 'index.html';
+        }
+        
+        // Animación de entrada
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.querySelector('.success-container');
+            setTimeout(() => {
+                container.classList.add('animate-in');
+            }, 100);
+        });
+    </script>
+</body>
+</html>

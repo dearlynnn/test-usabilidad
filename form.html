@@ -40,6 +40,39 @@
                             <p>¿Qué te gustaría aprender?</p>
                         </div>
                     </div>
+
+                    <!-- Panel de seguridad de contraseña -->
+                    <div class="password-security-panel" id="passwordSecurityPanel">
+                        <h4 class="security-panel-title">🔒 Contraseña Segura</h4>
+                        <div class="security-requirements">
+                            <div id="req-length" class="security-req">
+                                <span class="req-check">○</span>
+                                <span>8+ caracteres</span>
+                            </div>
+                            <div id="req-uppercase" class="security-req">
+                                <span class="req-check">○</span>
+                                <span>Mayúscula</span>
+                            </div>
+                            <div id="req-lowercase" class="security-req">
+                                <span class="req-check">○</span>
+                                <span>Minúscula</span>
+                            </div>
+                            <div id="req-number" class="security-req">
+                                <span class="req-check">○</span>
+                                <span>Número</span>
+                            </div>
+                            <div id="req-special" class="security-req">
+                                <span class="req-check">○</span>
+                                <span>Especial (@$!%*?&)</span>
+                            </div>
+                        </div>
+                        <div class="password-strength-indicator" id="passwordStrengthIndicator">
+                            <div class="strength-bar-mini">
+                                <div class="strength-fill-mini" id="strengthFillMini"></div>
+                            </div>
+                            <span class="strength-label-mini" id="strengthLabelMini">Sin contraseña</span>
+                        </div>
+                    </div>
                 </aside>
 
                 <!-- Área del formulario -->
@@ -64,7 +97,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="regPassword">Contraseña *</label>
-                                    <input type="password" id="regPassword" required placeholder="Mínimo 6 caracteres">
+                                    <input type="password" id="regPassword" required placeholder="Ingresa una contraseña segura">
                                 </div>
                                 <div class="form-group">
                                     <label for="regPasswordConfirm">Confirmar Contraseña *</label>
