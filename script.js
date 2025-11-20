@@ -149,8 +149,8 @@ function showFormStep(step) {
     if (current && current === target) {
         target.classList.remove('hidden-step');
         target.classList.add('active-step');
-        const dots = document.querySelectorAll('.step-dot');
-        dots.forEach(d => d.classList.toggle('active', Number(d.dataset.step) === step));
+        const stepItems = document.querySelectorAll('.step-item');
+        stepItems.forEach(d => d.classList.toggle('active', Number(d.dataset.step) === step));
         return;
     }
 
@@ -214,8 +214,8 @@ function showFormStep(step) {
     }
 
     // update indicators
-    const dots = document.querySelectorAll('.step-dot');
-    dots.forEach(d => {
+    const stepItems = document.querySelectorAll('.step-item');
+    stepItems.forEach(d => {
         d.classList.toggle('active', Number(d.dataset.step) === step);
     });
 

@@ -8,27 +8,43 @@
 </head>
 <body>
     <section id="formPage" class="form-page active">
-        <div class="form-split">
-            <aside class="form-left">
-                <div class="left-inner">
-                    <div class="left-top">
-                        <div class="logo">EduCursos</div>
-                    </div>
-                    <div class="left-art"></div>
-                </div>
-            </aside>
+        <div class="fullscreen-form-container">
+            <!-- Header superior -->
+            <header class="form-header">
+                <div class="logo">EduCursos</div>
+                <span class="close-form" onclick="showPresentation()">✕</span>
+            </header>
 
-            <main class="form-right">
-                <div class="form-panel">
-                    <span class="close-form" onclick="showPresentation()">✕</span>
-                    <h2>Crear Cuenta</h2>
-                    <form id="multiStepForm" onsubmit="handleRegister(event)">
-                        <!-- Step indicators -->
-                        <div class="step-indicator" id="stepIndicator">
-                            <span class="step-dot active" data-step="1">1</span>
-                            <span class="step-dot" data-step="2">2</span>
-                            <span class="step-dot" data-step="3">3</span>
+            <!-- Contenedor principal con navegación lateral -->
+            <div class="form-main-wrapper">
+                <!-- Navegación lateral de pasos -->
+                <aside class="steps-sidebar">
+                    <div class="step-item active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-info">
+                            <h3>Información Personal</h3>
+                            <p>Datos básicos de tu cuenta</p>
                         </div>
+                    </div>
+                    <div class="step-item" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-info">
+                            <h3>Datos Adicionales</h3>
+                            <p>Completa tu perfil</p>
+                        </div>
+                    </div>
+                    <div class="step-item" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-info">
+                            <h3>Intereses</h3>
+                            <p>¿Qué te gustaría aprender?</p>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Área del formulario -->
+                <main class="form-content-area">
+                    <form id="multiStepForm" onsubmit="handleRegister(event)">
 
                         <div class="form-steps-wrap">
 
@@ -133,13 +149,13 @@
                             <button type="button" id="navPrevBtn" class="btn-secondary">Anterior</button>
                             <button type="button" id="navNextBtn" class="btn-primary">Siguiente</button>
                         </div>
-
                     </form>
+
                     <div class="toggle-form">
                         ¿Ya tienes cuenta? <a onclick="toggleForms()">Inicia sesión</a>
                     </div>
-                </div>
-            </main>
+                </main>
+            </div>
         </div>
     </section>
 
