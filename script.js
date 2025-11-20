@@ -97,6 +97,17 @@ function handleRegister(e) {
         return;
     }
 
+    // Password security validation
+    if (!isPasswordSecure(password)) {
+        alert('Tu contraseña debe cumplir con todos los requisitos de seguridad:\n\n' +
+              '• Mínimo 8 caracteres\n' +
+              '• Una letra mayúscula\n' +
+              '• Una letra minúscula\n' +
+              '• Un número\n' +
+              '• Un carácter especial (@$!%*?&.#-_)');
+        return;
+    }
+
     // Intereses: al menos uno
     if (interests.length === 0) {
         alert('Selecciona al menos un interés.');
@@ -128,8 +139,87 @@ function handleRegister(e) {
     localStorage.setItem('users', JSON.stringify(users));
     currentUser = newUser;
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    // redirect to main page (will show dashboard if user is logged in)
-    window.location.href = 'index.html';
+    // redirect to success page
+    window.location.href = 'registro-exitoso.html';
+}
+
+// PASSWORD SECURITY VALIDATION (must be before nextFormStep uses it)
+function checkPasswordStrength(password) {
+    const requirements = {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[@$!%*?&.#\-_]/.test(password)
+    };
+
+    const metCount = Object.values(requirements).filter(Boolean).length;
+    
+    let strength = 'weak';
+    if (metCount >= 5) {
+        strength = 'strong';
+    } else if (metCount >= 3) {
+        strength = 'medium';
+    }
+
+    return { requirements, strength, metCount };
+}
+
+function isPasswordSecure(password) {
+    const { requirements } = checkPasswordStrength(password);
+    return Object.values(requirements).every(Boolean);
+}
+
+function updatePasswordStrengthUI(password) {
+    const strengthFill = document.getElementById('strengthFillMini');
+    const strengthLabel = document.getElementById('strengthLabelMini');
+
+    if (!strengthFill || !strengthLabel) return;
+
+    if (password.length === 0) {
+        strengthFill.className = 'strength-fill-mini';
+        strengthLabel.className = 'strength-label-mini';
+        strengthLabel.textContent = 'Sin contraseña';
+        
+        // Reset all requirements
+        ['length', 'uppercase', 'lowercase', 'number', 'special'].forEach(key => {
+            const elem = document.getElementById('req-' + key);
+            if (elem) elem.classList.remove('met');
+        });
+        return;
+    }
+
+    const { requirements, strength } = checkPasswordStrength(password);
+
+    // Update strength bar and label
+    strengthFill.className = 'strength-fill-mini ' + strength;
+    strengthLabel.className = 'strength-label-mini ' + strength;
+
+    const strengthLabels = {
+        weak: 'Débil',
+        medium: 'Media',
+        strong: 'Fuerte'
+    };
+    strengthLabel.textContent = strengthLabels[strength];
+
+    // Update requirements list in sidebar
+    const reqElements = {
+        length: document.getElementById('req-length'),
+        uppercase: document.getElementById('req-uppercase'),
+        lowercase: document.getElementById('req-lowercase'),
+        number: document.getElementById('req-number'),
+        special: document.getElementById('req-special')
+    };
+
+    Object.keys(requirements).forEach(key => {
+        if (reqElements[key]) {
+            if (requirements[key]) {
+                reqElements[key].classList.add('met');
+            } else {
+                reqElements[key].classList.remove('met');
+            }
+        }
+    });
 }
 
 // Multi-step form navigation
@@ -149,8 +239,8 @@ function showFormStep(step) {
     if (current && current === target) {
         target.classList.remove('hidden-step');
         target.classList.add('active-step');
-        const dots = document.querySelectorAll('.step-dot');
-        dots.forEach(d => d.classList.toggle('active', Number(d.dataset.step) === step));
+        const stepItems = document.querySelectorAll('.step-item');
+        stepItems.forEach(d => d.classList.toggle('active', Number(d.dataset.step) === step));
         return;
     }
 
@@ -214,8 +304,8 @@ function showFormStep(step) {
     }
 
     // update indicators
-    const dots = document.querySelectorAll('.step-dot');
-    dots.forEach(d => {
+    const stepItems = document.querySelectorAll('.step-item');
+    stepItems.forEach(d => {
         d.classList.toggle('active', Number(d.dataset.step) === step);
     });
 
@@ -254,11 +344,24 @@ function nextFormStep() {
         const emailRegex = /^[A-Za-z0-9.]+@[A-Za-z0-9.]+$/;
         if (!emailRegex.test(email)) { alert('Correo inválido: formato usuario@dominio (se permiten puntos).'); return; }
 
-        // password length and confirm
+        // password security validation
         const password = document.getElementById('regPassword').value;
         const confirm = document.getElementById('regPasswordConfirm').value;
-        if (password.length < 6) { alert('La contraseña debe tener al menos 6 caracteres.'); return; }
-        if (password !== confirm) { alert('Las contraseñas no coinciden.'); return; }
+        
+        if (!isPasswordSecure(password)) {
+            alert('Tu contraseña debe cumplir con todos los requisitos de seguridad:\n\n' +
+                  '• Mínimo 8 caracteres\n' +
+                  '• Una letra mayúscula\n' +
+                  '• Una letra minúscula\n' +
+                  '• Un número\n' +
+                  '• Un carácter especial (@$!%*?&.#-_)');
+            return;
+        }
+        
+        if (password !== confirm) { 
+            alert('Las contraseñas no coinciden.'); 
+            return; 
+        }
     }
 
     if (currentFormStep === 2) {
@@ -295,8 +398,8 @@ function handleLogin(e) {
 
     currentUser = user;
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        // Redirect to dashboard page so user sees their dashboard
-        window.location.href = 'dashboard.html';
+    // Redirect to login success page
+    window.location.href = 'login-exitoso.html';
 }
 
 // DASHBOARD
@@ -347,8 +450,8 @@ function renderCourses() {
 function logout() {
     currentUser = null;
     localStorage.removeItem('currentUser');
-    document.getElementById('dashboard').classList.remove('active');
-    showPresentation();
+    // Always redirect to home when logging out
+    window.location.href = 'index.html';
 }
 
 // Initialization: load users/currentUser and handle URL params
@@ -411,6 +514,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const ln = document.getElementById('regLastName');
     const ph = document.getElementById('regPhone');
     const em = document.getElementById('regEmail');
+    const pw = document.getElementById('regPassword');
+    const pwConfirm = document.getElementById('regPasswordConfirm');
 
     if (fn) {
         fn.addEventListener('input', (e) => {
@@ -478,12 +583,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Password strength validation
+    if (pw) {
+        pw.addEventListener('input', (e) => {
+            updatePasswordStrengthUI(e.target.value);
+        });
+    }
+
     // bind persistent navigation buttons
     const prevBtn = document.getElementById('navPrevBtn');
     const nextBtn = document.getElementById('navNextBtn');
-    if (prevBtn) prevBtn.addEventListener('click', prevFormStep);
-    if (nextBtn) nextBtn.addEventListener('click', nextFormStep);
+    if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            prevFormStep();
+        });
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            nextFormStep();
+        });
+    }
 
     // ensure initial step UI is shown and nav state updated
-    showFormStep(currentFormStep);
+    if (document.querySelector('.form-step')) {
+        showFormStep(currentFormStep);
+    }
 });

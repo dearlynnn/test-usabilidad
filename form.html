@@ -8,27 +8,76 @@
 </head>
 <body>
     <section id="formPage" class="form-page active">
-        <div class="form-split">
-            <aside class="form-left">
-                <div class="left-inner">
-                    <div class="left-top">
-                        <div class="logo">EduCursos</div>
-                    </div>
-                    <div class="left-art"></div>
-                </div>
-            </aside>
+        <div class="fullscreen-form-container">
+            <!-- Header superior -->
+            <header class="form-header">
+                <div class="logo">EduCursos</div>
+                <span class="close-form" onclick="showPresentation()">✕</span>
+            </header>
 
-            <main class="form-right">
-                <div class="form-panel">
-                    <span class="close-form" onclick="showPresentation()">✕</span>
-                    <h2>Crear Cuenta</h2>
-                    <form id="multiStepForm" onsubmit="handleRegister(event)">
-                        <!-- Step indicators -->
-                        <div class="step-indicator" id="stepIndicator">
-                            <span class="step-dot active" data-step="1">1</span>
-                            <span class="step-dot" data-step="2">2</span>
-                            <span class="step-dot" data-step="3">3</span>
+            <!-- Contenedor principal con navegación lateral -->
+            <div class="form-main-wrapper">
+                <!-- Navegación lateral de pasos -->
+                <aside class="steps-sidebar">
+                    <div class="step-item active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-info">
+                            <h3>Información Personal</h3>
+                            <p>Datos básicos de tu cuenta</p>
                         </div>
+                    </div>
+                    <div class="step-item" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-info">
+                            <h3>Datos Adicionales</h3>
+                            <p>Completa tu perfil</p>
+                        </div>
+                    </div>
+                    <div class="step-item" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-info">
+                            <h3>Intereses</h3>
+                            <p>¿Qué te gustaría aprender?</p>
+                        </div>
+                    </div>
+
+                    <!-- Panel de seguridad de contraseña -->
+                    <div class="password-security-panel" id="passwordSecurityPanel">
+                        <h4 class="security-panel-title">🔒 Contraseña Segura</h4>
+                        <div class="security-requirements">
+                            <div id="req-length" class="security-req">
+                                <span class="req-check">○</span>
+                                <span>8+ caracteres</span>
+                            </div>
+                            <div id="req-uppercase" class="security-req">
+                                <span class="req-check">○</span>
+                                <span>Mayúscula</span>
+                            </div>
+                            <div id="req-lowercase" class="security-req">
+                                <span class="req-check">○</span>
+                                <span>Minúscula</span>
+                            </div>
+                            <div id="req-number" class="security-req">
+                                <span class="req-check">○</span>
+                                <span>Número</span>
+                            </div>
+                            <div id="req-special" class="security-req">
+                                <span class="req-check">○</span>
+                                <span>Especial (@$!%*?&)</span>
+                            </div>
+                        </div>
+                        <div class="password-strength-indicator" id="passwordStrengthIndicator">
+                            <div class="strength-bar-mini">
+                                <div class="strength-fill-mini" id="strengthFillMini"></div>
+                            </div>
+                            <span class="strength-label-mini" id="strengthLabelMini">Sin contraseña</span>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Área del formulario -->
+                <main class="form-content-area">
+                    <form id="multiStepForm" onsubmit="handleRegister(event)">
 
                         <div class="form-steps-wrap">
 
@@ -48,7 +97,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="regPassword">Contraseña *</label>
-                                    <input type="password" id="regPassword" required placeholder="Mínimo 6 caracteres">
+                                    <input type="password" id="regPassword" required placeholder="Ingresa una contraseña segura">
                                 </div>
                                 <div class="form-group">
                                     <label for="regPasswordConfirm">Confirmar Contraseña *</label>
@@ -133,22 +182,16 @@
                             <button type="button" id="navPrevBtn" class="btn-secondary">Anterior</button>
                             <button type="button" id="navNextBtn" class="btn-primary">Siguiente</button>
                         </div>
-
                     </form>
+
                     <div class="toggle-form">
                         ¿Ya tienes cuenta? <a onclick="toggleForms()">Inicia sesión</a>
                     </div>
-                </div>
-            </main>
+                </main>
+            </div>
         </div>
     </section>
 
     <script src="script.js"></script>
-    <script>
-        // initialize steps when this page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            try { showFormStep(1); } catch (e) { /* ignore on other pages */ }
-        });
-    </script>
 </body>
 </html>
