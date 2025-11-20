@@ -143,6 +143,85 @@ function handleRegister(e) {
     window.location.href = 'registro-exitoso.html';
 }
 
+// PASSWORD SECURITY VALIDATION (must be before nextFormStep uses it)
+function checkPasswordStrength(password) {
+    const requirements = {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[@$!%*?&.#\-_]/.test(password)
+    };
+
+    const metCount = Object.values(requirements).filter(Boolean).length;
+    
+    let strength = 'weak';
+    if (metCount >= 5) {
+        strength = 'strong';
+    } else if (metCount >= 3) {
+        strength = 'medium';
+    }
+
+    return { requirements, strength, metCount };
+}
+
+function isPasswordSecure(password) {
+    const { requirements } = checkPasswordStrength(password);
+    return Object.values(requirements).every(Boolean);
+}
+
+function updatePasswordStrengthUI(password) {
+    const strengthFill = document.getElementById('strengthFillMini');
+    const strengthLabel = document.getElementById('strengthLabelMini');
+
+    if (!strengthFill || !strengthLabel) return;
+
+    if (password.length === 0) {
+        strengthFill.className = 'strength-fill-mini';
+        strengthLabel.className = 'strength-label-mini';
+        strengthLabel.textContent = 'Sin contraseña';
+        
+        // Reset all requirements
+        ['length', 'uppercase', 'lowercase', 'number', 'special'].forEach(key => {
+            const elem = document.getElementById('req-' + key);
+            if (elem) elem.classList.remove('met');
+        });
+        return;
+    }
+
+    const { requirements, strength } = checkPasswordStrength(password);
+
+    // Update strength bar and label
+    strengthFill.className = 'strength-fill-mini ' + strength;
+    strengthLabel.className = 'strength-label-mini ' + strength;
+
+    const strengthLabels = {
+        weak: 'Débil',
+        medium: 'Media',
+        strong: 'Fuerte'
+    };
+    strengthLabel.textContent = strengthLabels[strength];
+
+    // Update requirements list in sidebar
+    const reqElements = {
+        length: document.getElementById('req-length'),
+        uppercase: document.getElementById('req-uppercase'),
+        lowercase: document.getElementById('req-lowercase'),
+        number: document.getElementById('req-number'),
+        special: document.getElementById('req-special')
+    };
+
+    Object.keys(requirements).forEach(key => {
+        if (reqElements[key]) {
+            if (requirements[key]) {
+                reqElements[key].classList.add('met');
+            } else {
+                reqElements[key].classList.remove('met');
+            }
+        }
+    });
+}
+
 // Multi-step form navigation
 let currentFormStep = 1;
 const totalFormSteps = 3;
@@ -430,95 +509,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return result.slice(0,50);
     }
 
-    // --- PASSWORD STRENGTH VALIDATION ---
-    function checkPasswordStrength(password) {
-        const requirements = {
-            length: password.length >= 8,
-            uppercase: /[A-Z]/.test(password),
-            lowercase: /[a-z]/.test(password),
-            number: /[0-9]/.test(password),
-            special: /[@$!%*?&.#\-_]/.test(password)
-        };
-
-        const metCount = Object.values(requirements).filter(Boolean).length;
-        
-        let strength = 'weak';
-        if (metCount >= 5) {
-            strength = 'strong';
-        } else if (metCount >= 3) {
-            strength = 'medium';
-        }
-
-        return { requirements, strength, metCount };
-    }
-
-    function updatePasswordStrengthUI(password) {
-        const strengthFill = document.getElementById('strengthFillMini');
-        const strengthLabel = document.getElementById('strengthLabelMini');
-
-        if (!strengthFill || !strengthLabel) return;
-
-        if (password.length === 0) {
-            strengthFill.className = 'strength-fill-mini';
-            strengthLabel.className = 'strength-label-mini';
-            strengthLabel.textContent = 'Sin contraseña';
-            
-            // Reset all requirements
-            ['length', 'uppercase', 'lowercase', 'number', 'special'].forEach(key => {
-                const elem = document.getElementById('req-' + key);
-                if (elem) elem.classList.remove('met');
-            });
-            return;
-        }
-
-        const { requirements, strength } = checkPasswordStrength(password);
-
-        // Update strength bar and label
-        strengthFill.className = 'strength-fill-mini ' + strength;
-        strengthLabel.className = 'strength-label-mini ' + strength;
-
-        const strengthLabels = {
-            weak: 'Débil',
-            medium: 'Media',
-            strong: 'Fuerte'
-        };
-        strengthLabel.textContent = strengthLabels[strength];
-
-        // Update requirements list in sidebar
-        const reqElements = {
-            length: document.getElementById('req-length'),
-            uppercase: document.getElementById('req-uppercase'),
-            lowercase: document.getElementById('req-lowercase'),
-            number: document.getElementById('req-number'),
-            special: document.getElementById('req-special')
-        };
-
-        Object.keys(requirements).forEach(key => {
-            if (reqElements[key]) {
-                if (requirements[key]) {
-                    reqElements[key].classList.add('met');
-                } else {
-                    reqElements[key].classList.remove('met');
-                }
-            }
-        });
-    }
-
-    function validatePasswordMatch() {
-        // Simple validation, no UI indicator needed
-        const password = document.getElementById('regPassword');
-        const confirmPassword = document.getElementById('regPasswordConfirm');
-        
-        if (!password || !confirmPassword) return false;
-        
-        return password.value === confirmPassword.value;
-    }
-
-    function isPasswordSecure(password) {
-        const { requirements } = checkPasswordStrength(password);
-        return Object.values(requirements).every(Boolean);
-    }
-
     // attach listeners only if elements exist
     const fn = document.getElementById('regFirstName');
     const ln = document.getElementById('regLastName');
@@ -603,9 +593,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // bind persistent navigation buttons
     const prevBtn = document.getElementById('navPrevBtn');
     const nextBtn = document.getElementById('navNextBtn');
-    if (prevBtn) prevBtn.addEventListener('click', prevFormStep);
-    if (nextBtn) nextBtn.addEventListener('click', nextFormStep);
+    if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            prevFormStep();
+        });
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            nextFormStep();
+        });
+    }
 
     // ensure initial step UI is shown and nav state updated
-    showFormStep(currentFormStep);
+    if (document.querySelector('.form-step')) {
+        showFormStep(currentFormStep);
+    }
 });
